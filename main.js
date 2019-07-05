@@ -7,13 +7,14 @@ var app = new Vue({
         details: ["80% cotton", "20% polyester"],
         variants: [
             {
-                variantID: 2234,
+                variantId: 2234,
                 variantColor: "Green"
             },
             {
-                variantID: 2235,
+                variantId: 2235,
                 variantColor: "Blue"
             }
-        ]
+        ],
+        cart: 0
     }
 })
