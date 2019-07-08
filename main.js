@@ -39,7 +39,7 @@ Vue.component('product', {
     data() {
         return {
             product: 'Socks',
-            brand: 'Vuetiful apparel',
+            brand: 'Vuetiful apparel ',
             selectedVariant: 0,
             details: ['80% cotton', '20% polyester'],
             variants: [
@@ -59,9 +59,9 @@ Vue.component('product', {
             
         }
       },
-    methods: {
+      methods: {
         addToCart: function() {
-            this.$emit('add-to-cart')
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
         updateProduct(index) {
             this.selectedVariant = index
@@ -92,11 +92,11 @@ var app = new Vue({
     el: '#app',
     data: {
         premium: false,
-        cart: 0
+        cart: []
     },
     methods: {
-        updateCart() {
-            this.cart += 1
+        updateCart(id) {
+          this.cart.push(id)
         }
     } 
     
