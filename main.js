@@ -1,4 +1,10 @@
-vue.component('product', {
+Vue.component('product', {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true
+    }
+},
     template:`
     <div class="product">
           
@@ -10,6 +16,7 @@ vue.component('product', {
                 <h1>{{ title }}</h1>
                 <p v-if="inStock">In Stock</p>
                 <p v-else>Out of Stock</p>
+                <p>Shipping: {{ shipping }}</p>
                 
                 <ul>
                     <li v-for="detail in details">{{ detail }}</li>
@@ -25,9 +32,7 @@ vue.component('product', {
                 <button v-on:click="addToCart"
                         :disabled="!inStock"
                         :class="{ disabledButton: !inStock }">Add to Cart</button>
-                <div class="cart">
-                    <p>Cart({{ cart }})</p>
-                </div>
+                
             </div>        
         </div>
     </div>`,
@@ -50,13 +55,13 @@ vue.component('product', {
                 variantImage: './assets/vmSocks-blue-onWhite.jpg',
                 variantQuantity: 0     
               }
-            ],
-            cart: 0
+            ]
+            
         }
       },
     methods: {
         addToCart: function() {
-            this.cart += 1
+            this.$emit('add-to-cart')
         },
         updateProduct(index) {
             this.selectedVariant = index
@@ -72,6 +77,12 @@ vue.component('product', {
     },
     inStock() {
         return this.variants[this.selectedVariant].variantQuantity
+    },
+    shipping() {
+        if (this.premium) {
+            return "Free for Premium"
+        }
+        return 2.99
     }
  }
 })
@@ -79,6 +90,14 @@ vue.component('product', {
 
 var app = new Vue({
     el: '#app',
-    
+    data: {
+        premium: false,
+        cart: 0
+    },
+    methods: {
+        updateCart() {
+            this.cart += 1
+        }
+    } 
     
 })
