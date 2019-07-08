@@ -35,7 +35,7 @@ Vue.component('product', {
                         
                         </div> 
              
-                        <product-review></product-review>
+                        <product-review @review-submitted></product-review>
                      
                      </div>
     `,
@@ -92,7 +92,7 @@ Vue.component('product', {
 
 Vue.component('product-review', {
     template: `
-      <form class="review-form">
+      <form class="review-form @submit.prevent="onSubmit">
 
         <p>
           <label for="name">Name:</label>
@@ -126,6 +126,19 @@ data() {
         name: null,
         review: null,
         rating: null
+    }
+},
+methods: {
+    onSubmit() {
+        let productReview = {
+            name: this.name,
+            review: this.review,
+            rating: this.rating
+        }
+        this.$emit('review-submitted', productReview)
+        this.name = null
+        this.review = null
+        this.rating = null
     }
 }
 })
