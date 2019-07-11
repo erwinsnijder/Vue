@@ -1,3 +1,5 @@
+
+
 Vue.component('product', {
     props: {
         premium: {
@@ -167,7 +169,8 @@ methods: {
             if(!this.name) this.errors.push("Name Required!")
             if(!this.review) this.errors.push("Review Required!")
             if(!this.rating) this.errors.push("Rating Required!")
-        }   if(!this.recommend) this.errors.push("Recommendation required!")
+           if(!this.recommend) this.errors.push("Recommendation required!")
+        }
     }
 }
 })
@@ -181,12 +184,14 @@ Vue.component('product-tabs', {
     },
     template: `
     <div>
+    <div>
     <span class="tabs" 
           :class="{ activeTab: selectedTab === tab }"
           v-for="(tab, index) in tabs"
           :key="index"
           @click="selectedTab = tab"
     >{{ tab }}</span>
+    </div>
 
     <div v-show="selectedTab === 'Reviews'">
                         <h2>Reviews</h2>
@@ -207,7 +212,7 @@ Vue.component('product-tabs', {
     `,
     data() {
         return {
-          tabs: ['Reviews', ' Make a Review'],
+          tabs: ['Reviews', 'Make a Review'],
           selectedTab: 'Reviews'
         }
       }
