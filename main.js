@@ -13,7 +13,7 @@ Vue.component('product', {
             </div>
 
             <div class="product-info">
-                <h1>{{ title }}</h1>
+                <h1 class="title is-1">{{ title }}</h1>
                 <p v-if="inStock">In Stock</p>
                 <p v-else>Out of Stock</p>
                 <p>Shipping: {{ shipping }}</p>
@@ -34,6 +34,9 @@ Vue.component('product', {
                         :class="{ disabledButton: !inStock }">Add to Cart</button>
                         
                         </div> 
+
+
+                        <product-tabs></product-tabs>
 
                         <div>
                         <h2>Reviews</h2>
@@ -183,6 +186,25 @@ methods: {
     }
 }
 })
+
+Vue.component('product-tabs', {
+    template: `
+    <div>
+    <span class="tabs" 
+          :class="{ activeTab: selectedTab === tab }"
+          v-for="(tab, index) in tabs"
+          :key="index"
+          @click="selectedTab = tab"
+    >{{ tab }}</span>
+  </div>
+    `,
+    data() {
+        return {
+          tabs: ['Reviews', ' Make a Review'],
+          selectedTab: 'Reviews'
+        }
+      }
+    })
 
 var app = new Vue({
     el: '#app',
