@@ -1,4 +1,4 @@
-
+var eventBus = new Vue()
 
 Vue.component('product', {
     props: {
@@ -71,10 +71,7 @@ Vue.component('product', {
         },
         updateProduct(index) {
             this.selectedVariant = index
-        },
-        addReview(productReview) {
-            this.reviews.push(productReview)
-          }
+        }
     },
     computed: {
         title() {
@@ -92,7 +89,12 @@ Vue.component('product', {
         }
         return 2.99
     }
- }
+ },
+ mounted() {
+     eventBus.$on('review-submitted', productReview =>{
+        this.reviews.push(productReview)
+     })
+ },
 })
 
 Vue.component('product-review', {
@@ -159,7 +161,7 @@ methods: {
                 rating: this.rating,
                 recommend: this.recommend
             }
-            this.$emit('review-submitted', productReview)
+            eventBus.$emit('review-submitted', productReview)
             this.name = null
             this.review = null
             this.rating = null
