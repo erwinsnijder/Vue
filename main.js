@@ -36,22 +36,7 @@ Vue.component('product', {
                         </div> 
 
 
-                        <product-tabs></product-tabs>
-
-                        <div>
-                        <h2>Reviews</h2>
-                        <p v-if="!reviews.length">There are no reviews yet</p>
-                        <ul>
-                            <li v-for="review in reviews">
-                            <p>{{ review.name }}</p>
-                            <p>{{ review.review }}</p>
-                            <p>{{ review.rating }}</p>
-                            </li>
-                        </ul>
-                        </div>
-             
-                        <product-review @review-submitted="addReview"></product-review>
-                     
+                        <product-tabs :reviews="reviews"></product-tabs>                     
                      </div>
     `,
     data() {
@@ -188,6 +173,12 @@ methods: {
 })
 
 Vue.component('product-tabs', {
+    props: {
+        reviews: {
+            type: Array,
+            required: true
+        }
+    },
     template: `
     <div>
     <span class="tabs" 
@@ -196,7 +187,23 @@ Vue.component('product-tabs', {
           :key="index"
           @click="selectedTab = tab"
     >{{ tab }}</span>
-  </div>
+
+    <div v-show="selectedTab === 'Reviews'">
+                        <h2>Reviews</h2>
+                        <p v-if="!reviews.length">There are no reviews yet</p>
+                        <ul>
+                            <li v-for="review in reviews">
+                            <p>{{ review.name }}</p>
+                            <p>{{ review.review }}</p>
+                            <p>{{ review.rating }}</p>
+                            </li>
+                        </ul>
+                        </div>
+             
+                        <product-review v-show="selectedTab === 'Make a Review'">
+                        </product-review>        
+                      
+                        </div>
     `,
     data() {
         return {
