@@ -37,7 +37,7 @@ Vue.component('product', {
 
                         <div>
                         <h2>Reviews</h2>
-                        <p>There are no reviews yet</p>
+                        <p v-if="!reviews.length">There are no reviews yet</p>
                         <ul>
                             <li v-for="review in reviews">
                             <p>{{ review.name }}</p>
@@ -107,7 +107,15 @@ Vue.component('product', {
 
 Vue.component('product-review', {
     template: `
-    <form class="review-form" @submit.prevent="onSubmit">s
+    <form class="review-form" @submit.prevent="onSubmit">
+
+
+    <p v-if="errors.length">
+    <b>Please correct the following error:</b>
+    <ul>
+    <li v-for="error in errors">{{ error }}</li>    
+    </ul>
+    </p>
 
         <p>
           <label for="name">Name:</label>
@@ -140,20 +148,28 @@ data() {
     return {
         name: null,
         review: null,
-        rating: null
+        rating: null,
+        errors: []
     }
 },
 methods: {
     onSubmit() {
-        let productReview = {
-            name: this.name,
-            review: this.review,
-            rating: this.rating
+        if (this.name && this.review && this.rating) {
+            let productReview = {
+                name: this.name,
+                review: this.review,
+                rating: this.rating
+            }
+            this.$emit('review-submitted', productReview)
+            this.name = null
+            this.review = null
+            this.rating = null
         }
-        this.$emit('review-submitted', productReview)
-        this.name = null
-        this.review = null
-        this.rating = null
+        else {
+            if(!this.name) this.errors.push("Name Required!")
+            if(!this.review) this.errors.push("Review Required!")
+            if(!this.rating) this.errors.push("Rating Required!")
+        } 
     }
 }
 })
